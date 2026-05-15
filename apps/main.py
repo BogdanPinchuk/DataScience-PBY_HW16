@@ -5,7 +5,7 @@ from statsmodels.tsa.stattools import adfuller, acf, pacf
 from pandas.io.formats.style import Styler
 from sklearn.metrics import (confusion_matrix, accuracy_score, precision_score, recall_score, f1_score,
                              mean_absolute_error, mean_squared_error, r2_score, classification_report,
-                             roc_auc_score, average_precision_score)
+                             roc_auc_score, average_precision_score, mean_absolute_percentage_error)
 
 
 def is_stationary(p_value: float) -> bool:
@@ -181,16 +181,19 @@ def calc_regres_metrics(y_test, y_pred) -> Styler:
 
     # Mean Absolute Error
     mae = mean_absolute_error(y_test, y_pred)
-    rp.add_item("MAE", rp.format_value(mae))
+    rp.add_item("MAE", rp.format_value(mae)) # type: ignore
     # Mean Squared Error
     mse = mean_squared_error(y_test, y_pred)
-    rp.add_item("MSE", rp.format_value(mse))
+    rp.add_item("MSE", rp.format_value(mse)) # type: ignore
     # Root Mean Squared Error
     rmse = np.sqrt(mse)
-    rp.add_item("RMSE", rp.format_value(rmse))
+    rp.add_item("RMSE", rp.format_value(rmse)) # type: ignore
     # R2 - coefficient of determination
     r2 = r2_score(y_test, y_pred)
     rp.add_item("R²\n(коефіцієнт детермінації)", rp.format_value(r2))
+    # Mean Absolute Percentage Error
+    mape = mean_absolute_percentage_error(y_test, y_pred)
+    rp.add_item("MAPE", rp.format_value(mape))
 
     df = rp.get_pd_report()
 
@@ -198,3 +201,4 @@ def calc_regres_metrics(y_test, y_pred) -> Styler:
     rp.print_pd_report(f"Метрики регресії")
 
     return df
+
