@@ -107,6 +107,10 @@ def train_test_split_by_order(array, test_size: float) -> tuple:
     n_samples = len(array)
     if n_samples <= 1:
         raise ValueError("The array must contain more than one element!")
+
+    if test_size <= 0.0 or 1.0 <= test_size:
+        raise ValueError("Invalid test size, it should be between 0.0 and 1.0!")
+
     n_test = int(n_samples * test_size)
     if n_test == 0:
         n_test = 1
