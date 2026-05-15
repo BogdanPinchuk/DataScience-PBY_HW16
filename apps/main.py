@@ -1,5 +1,6 @@
 import numpy as np
 import apps.reporter as rpt
+from pandas import Series, DataFrame
 from statsmodels.tsa.stattools import adfuller, acf, pacf
 from pandas.io.formats.style import Styler
 from sklearn.metrics import (confusion_matrix, accuracy_score, precision_score, recall_score, f1_score,
@@ -69,6 +70,7 @@ def find_q_acf_manually(array: np.ndarray) -> int:
 
     return q
 
+
 def find_p_pacf_manually(array: np.ndarray) -> int:
     """
     Find p manually by PACF
@@ -93,6 +95,30 @@ def find_p_pacf_manually(array: np.ndarray) -> int:
             break
 
     return p
+
+
+def train_test_split_by_order(array, test_size: float) -> tuple:
+    """
+    Split arrays or matrices into order to train and test subset
+    :param array: input data
+    :param test_size: the proportion of the dataset for the test split
+    :return: tuple of train and test arrays
+    """
+    n_samples = len(array)
+    if n_samples <= 1:
+        raise ValueError("The array must contain more than one element!")
+    n_test = int(n_samples * test_size)
+    if n_test == 0:
+        n_test = 1
+
+    if isinstance(array, (Series, DataFrame)):
+        train_array = array.iloc[:-n_test]
+        test_array = array.iloc[-n_test:]
+    else:
+        train_array = array[:-n_test]
+        test_array = array[-n_test:]
+
+    return train_array, test_array
 
 
 def calc_class_metrics(y_test, y_pred, y_prob=None) -> Styler:
