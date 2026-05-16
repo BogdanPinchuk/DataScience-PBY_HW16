@@ -190,7 +190,7 @@ def calc_regres_metrics(y_test, y_pred) -> Styler:
     rp.add_item("RMSE", rp.format_value(rmse)) # type: ignore
     # R2 - coefficient of determination
     r2 = r2_score(y_test, y_pred)
-    rp.add_item("R²\n(коефіцієнт детермінації)", rp.format_value(r2))
+    rp.add_item(f"R²\n(коефіцієнт детермінації)", rp.format_value(r2))
     # Mean Absolute Percentage Error
     mape = mean_absolute_percentage_error(y_test, y_pred)
     rp.add_item("MAPE", rp.format_value(mape))
