@@ -3,7 +3,8 @@ from scipy.fft import rfft, irfft, rfftfreq
 import matplotlib.pyplot as plt
 
 
-def get_signal_spectrum(signal_data: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+def get_signal_spectrum(signal_data: np.ndarray) -> \
+        tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Get signal spectrum
     :param signal_data: signal array
@@ -61,8 +62,8 @@ def plot_signal_spectrum_by_components(amplitudes: np.ndarray,
     if restored_signal_data is None:
         ax.plot(signal_data, color="blue", label="original signal")
     else:
-        ax.plot(restored_signal_data, color="blue", linewidth=5.0, alpha=0.25, label="original signal")
-        ax.plot(signal_data, color="red", linewidth=1.0, label="original signal")
+        ax.plot(signal_data, color="blue", linewidth=5.0, alpha=0.35, label="original signal")
+        ax.plot(restored_signal_data, color="red", linewidth=1.0, label="original signal")
 
     ax.grid(axis='both', visible=True, which='major', ls='--', linewidth=1.0, color='tab:gray')
     # ax.minorticks_on()
@@ -92,7 +93,8 @@ def modify_signal_spectrum(signal_data: np.ndarray,
                            hr_upper_lim: float = 0.0,
                            vr_lower_lim: float = 1.0,
                            vr_upper_lim: float = 0.0,
-                           figsize: tuple[float, float] = None) -> np.ndarray:
+                           figsize: tuple[float, float] = None) -> \
+        tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Modify the signal spectrum
     :param signal_data: original signal data
@@ -101,7 +103,7 @@ def modify_signal_spectrum(signal_data: np.ndarray,
     :param vr_lower_lim: (0,1), resets the abs(values) to zero from down (vr_lower_lim) to up (end or vr_upper_lim)
     :param vr_upper_lim: (0,1), resets the abs(values) to zero from down (start or vr_lower_lim) to up (vr_upper_lim)
     :param figsize: figure size, if value is "None", the plot won't be shown
-    :return: recovered signal data
+    :return: (spectrum, amplitude, phase, frequency, recovered signal data)
     """
     config_array = {hr_lower_lim, hr_upper_lim, vr_lower_lim, vr_upper_lim}
     for item in config_array:
@@ -142,7 +144,7 @@ def modify_signal_spectrum(signal_data: np.ndarray,
                 amplitude = 0.0
                 phase = 0.0
         else:
-            if abs_amplitude < level_vr_lower or level_vr_upper < abs_amplitude:
+            if abs_amplitude < level_vr_upper or level_vr_lower < abs_amplitude:
                 amplitude = 0.0
                 phase = 0.0
 
@@ -161,4 +163,4 @@ def modify_signal_spectrum(signal_data: np.ndarray,
         plot_signal_spectrum_by_components(changed_amplitudes, changed_phases, frequencies,
                                            signal_data, figsize, restored_signal)
 
-    return restored_signal
+    return restored_spectrum, changed_amplitudes, changed_phases, frequencies, restored_signal
