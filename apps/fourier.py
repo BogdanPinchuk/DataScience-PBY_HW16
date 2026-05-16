@@ -60,9 +60,9 @@ def plot_signal_spectrum_by_components(amplitudes: np.ndarray,
     ax = axes[2]
 
     if restored_signal_data is None:
-        ax.plot(signal_data, color="blue", label="original signal")
+        ax.plot(signal_data, label="original signal")
     else:
-        ax.plot(signal_data, color="blue", linewidth=5.0, alpha=0.35, label="original signal")
+        ax.plot(signal_data, linewidth=5.0, alpha=0.5, label="original signal")
         ax.plot(restored_signal_data, color="red", linewidth=1.0, label="original signal")
 
     ax.grid(axis='both', visible=True, which='major', ls='--', linewidth=1.0, color='tab:gray')
