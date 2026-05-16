@@ -58,13 +58,13 @@ def plot_signal_spectrum_by_components(amplitudes: np.ndarray,
 
     # Signal
     ax = axes[2]
-
     if restored_signal_data is None:
         ax.plot(signal_data, label="original signal")
     else:
         ax.plot(signal_data, linewidth=5.0, alpha=0.5, label="original signal")
-        ax.plot(restored_signal_data, color="red", linewidth=1.0, label="original signal")
+        ax.plot(restored_signal_data, color="red", linewidth=1.0, label="restored signal")
 
+    ax.legend()
     ax.grid(axis='both', visible=True, which='major', ls='--', linewidth=1.0, color='tab:gray')
     # ax.minorticks_on()
     # ax.grid(axis='both', visible=True, which='minor', ls=':', linewidth=0.5, color='tab:green')
